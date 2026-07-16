@@ -1,6 +1,3 @@
-
-# Ignore the following files
-
 client.keys
 internal_options.conf
 local_internal_options.conf
@@ -14,4 +11,3 @@ sslmanager.key
 lists/
 rootcheck/
 shared/
-

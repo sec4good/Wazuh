@@ -20,7 +20,7 @@
 
 <group name="security_event, windows,">
  
-  <!-- This rule detects DCSync attacks using windows security event on the domain controller -->
+  <!-- This rule detects DCSync attacks using windows security event on the domain controller. -->
   <rule id="110001" level="12">
     <if_sid>60103</if_sid>
     <field name="win.system.eventID">^4662$</field>
@@ -29,27 +29,27 @@
     <description>Directory Service Access. Possible DCSync attack</description>
   </rule>
  
- <!-- This rule ignores Directory Service Access originating from machine accounts containing $ -->
+ <!-- This rule ignores Directory Service Access originating from machine accounts containing '$'. -->
  <rule id="110009" level="0">
     <if_sid>60103</if_sid>
     <field name="win.system.eventID">^4662$</field>
     <field name="win.eventdata.properties" type="pcre2">{1131f6aa-9c07-11d1-f79f-00c04fc2dcd2}|{19195a5b-6da0-11d0-afd3-00c04fd930c9}</field>
     <field name="win.eventdata.SubjectUserName" type="pcre2">\$$</field>
     <options>no_full_log</options>
-    <description>Ignore all Directory Service Access that is originated from a machine account containing $</description>
+    <description>Ignore all Directory Service Access that is originated from a machine account containing '$'</description>
   </rule>
  
-  <!-- This rule detects Keberoasting attacks using windows security event on the domain controller -->
+  <!-- This rule detects Kerberoasting attacks using windows security event on the domain controller. -->
   <rule id="110002" level="12">
     <if_sid>60103</if_sid>
     <field name="win.system.eventID">^4769$</field>
     <field name="win.eventdata.TicketOptions" type="pcre2">0x40810000</field>
     <field name="win.eventdata.TicketEncryptionType" type="pcre2">0x17</field>
     <options>no_full_log</options>
-    <description>Possible Keberoasting attack</description>
+    <description>Possible Kerberoasting attack</description>
   </rule>
  
-  <!-- This rule detects Golden Ticket attacks using windows security events on the domain controller -->
+  <!-- This rule detects Golden Ticket attacks using windows security events on the domain controller. -->
   <rule id="110003" level="12">
     <if_sid>60103</if_sid>
     <field name="win.system.eventID">^4624$</field>
@@ -69,14 +69,14 @@
     <description>PsExec service launched for possible lateral movement within the domain</description>
   </rule>
 
-  <!-- This rule detects NTDS.dit file extraction using a sysmon event captured on the domain controller -->
+  <!-- This rule detects NTDS.dit file extraction using a sysmon event captured on the domain controller. -->
   <rule id="110006" level="12">
     <if_group>sysmon_event1</if_group>
     <field name="win.eventdata.commandLine" type="pcre2">(?i)NTDSUTIL</field>
     <description>Possible NTDS.dit file extraction using ntdsutil.exe</description>
   </rule>
 
-  <!-- This rule detects Pass-the-ash (PtH) attacks using windows security event 4624 on the compromised endpoint -->
+  <!-- This rule detects Pass-the-Hash (PtH) attacks using windows security event 4624 on the compromised endpoint. -->
   <rule id="110007" level="12">
     <if_sid>60103</if_sid>
     <field name="win.system.eventID">^4624$</field>
@@ -88,7 +88,7 @@
     <description>Possible Pass the hash attack</description>
   </rule>
   
-  <!-- This rule detects credential dumping when the command sekurlsa::logonpasswords is run on mimikatz -->
+  <!-- This rule detects credential dumping when the command sekurlsa::logonpasswords is run on mimikatz. -->
   <rule id="110008" level="12">
     <if_sid>61612</if_sid>
     <field name="win.eventdata.TargetImage" type="pcre2">(?i)\\\\system32\\\\lsass.exe</field>

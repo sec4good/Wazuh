@@ -3,21 +3,6 @@
 <!-- Modify it at your will. -->
 <!-- Copyright (C) 2015, Wazuh Inc. -->
 
-<!-- Example -->
-<group name="local,syslog,sshd,">
-
-  <!--
-  Dec 10 01:02:02 host sshd[1234]: Failed none for root from 1.1.1.1 port 1066 ssh2
-  -->
-  <rule id="100001" level="5">
-    <if_sid>5716</if_sid>
-    <srcip>1.1.1.1</srcip>
-    <description>sshd: authentication failed from IP 1.1.1.1.</description>
-    <group>authentication_failed,pci_dss_10.2.4,pci_dss_10.2.5,</group>
-  </rule>
-
-</group>
-
 <group name="security_event, windows,">
  
   <!-- This rule detects DCSync attacks using windows security event on the domain controller. -->
@@ -116,22 +101,4 @@
     <description>Possible credential dumping using mimikatz</description>
   </rule>
   
-</group>
-
-<group name="sysmon,test,">
-
-  <rule id="110102" level="15">
-    <if_group>sysmon_event1</if_group>
-    <field name="win.eventdata.Image" type="pcre2">(?i)\\notepad\.exe$</field>
-    <description>TEST ALERT - Notepad started</description>
-  </rule>
-
-
-  <rule id="110201" level="15">
-    <if_group>sysmon_event_13</if_group>
-    <field name="win.eventdata.Details" type="pcre2">0x00000010</field>
-    <description>TEST ALERT - Registry DWORD value 16 detected</description>
-  </rule>
-
-
 </group>

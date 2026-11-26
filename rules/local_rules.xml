@@ -48,7 +48,19 @@
     <description>Possible Kerberoasting attack - RC4 TGS request for $(win.eventdata.serviceName) by $(win.eventdata.targetUserName)</description>
     <mitre><id>T1558.003</id></mitre>
   </rule>
- 
+
+  <!-- This rule detects TGS requests for prepared honeypot using windows security event on the domain controller. 
+  This rule is a sibling of id=110002 that detects any request with weak cipher.
+  To prefer this rule in case of request for the honeypot account, let this rule have higher level than the sibling rule.-->
+  <rule id="110012" level="14">
+    <if_sid>60103</if_sid>
+    <field name="win.system.eventID">^4769$</field> <!-- Kerberos service ticket was requested. -->
+    <field name="win.eventdata.ServiceName">^sql_svc$</field> <!-- Change for the name of SPN account prepared as honeypot. -->
+    <options>no_full_log</options>
+    <description>TGS requested for honeypot: $(win.eventdata.serviceName)</description>
+    <mitre><id>T1558.003</id></mitre>
+  </rule>
+
   <!-- This rule detects Golden Ticket attacks using windows security events on the domain controller. -->
   <rule id="110003" level="12">
     <if_sid>60103</if_sid>

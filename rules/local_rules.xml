@@ -49,7 +49,7 @@
     <mitre><id>T1558.003</id></mitre>
   </rule>
 
-  <!-- This rule detects TGS requests for prepared honeypot using windows security event on the domain controller. 
+  <!-- This rule detects TGS requests for prepared honeypot using windows security event on the domain controller.
   This rule is a sibling of id=110002 that detects any request with weak cipher.
   To prefer this rule in case of request for the honeypot account, let this rule have higher level than the sibling rule.-->
   <rule id="110012" level="14">
@@ -73,12 +73,20 @@
  
 
   <!-- This rule detects when PsExec is launched remotely to perform lateral movement within the domain. The rule uses Sysmon events collected from the domain controller. -->
-  <rule id="110004" level="12">
-    <if_sid>61600</if_sid>
-    <field name="win.system.eventID" type="pcre2">17|18</field>
-    <field name="win.eventdata.PipeName" type="pcre2">\\PSEXESVC</field>
+  <!-- Notes: Check what is the correct parrent. It might be more general <if_sid>61600</if_sid>-->
+  <rule id="110009" level="12">
+    <if_sid>61646</if_sid>
+    <field name="win.system.eventID">^18$</field>
+    <field name="win.eventdata.pipeName" type="pcre2">\\PSEXESVC</field>
     <options>no_full_log</options>
-    <description>PsExec service launched for possible lateral movement within the domain</description>
+    <description>PSExec pipeline connected for possible lateral movement within domain</description>
+  </rule>
+  <rule id="110010" level="12">
+    <if_sid>61645</if_sid>
+    <field name="win.system.eventID">^17$</field>
+    <field name="win.eventdata.pipeName" type="pcre2">\\PSEXESVC</field>
+    <options>no_full_log</options>
+    <description>Pipeline created with PSExec for possible lateral movement within the domain</description>
   </rule>
 
   <!-- This rule detects NTDS.dit file extraction using a sysmon event captured on the domain controller. -->

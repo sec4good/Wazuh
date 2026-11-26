@@ -72,7 +72,7 @@
   <!-- This rule detects NTDS.dit file extraction using a sysmon event captured on the domain controller -->
   <rule id="110006" level="12">
     <if_group>sysmon_event1</if_group>
-    <field name="win.eventdata.commandLine" type="pcre2">NTDSUTIL</field>
+    <field name="win.eventdata.commandLine" type="pcre2">(?i)NTDSUTIL</field>
     <description>Possible NTDS.dit file extraction using ntdsutil.exe</description>
   </rule>
 

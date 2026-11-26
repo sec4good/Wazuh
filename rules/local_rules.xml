@@ -128,7 +128,7 @@
 
 
   <rule id="110201" level="15">
-    <if_group>sysmon_event13</if_group>
+    <if_group>sysmon_event_13</if_group>
     <field name="win.eventdata.Details" type="pcre2">0x00000010</field>
     <description>TEST ALERT - Registry DWORD value 16 detected</description>
   </rule>

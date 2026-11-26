@@ -42,11 +42,11 @@
   <!-- This rule detects Kerberoasting attacks using windows security event on the domain controller. -->
   <rule id="110002" level="12">
     <if_sid>60103</if_sid>
-    <field name="win.system.eventID">^4769$</field>
-    <field name="win.eventdata.TicketOptions" type="pcre2">0x40810000</field>
-    <field name="win.eventdata.TicketEncryptionType" type="pcre2">0x17</field>
+    <field name="win.system.eventID">^4769$</field> <!-- Kerberos service ticket was requested. -->
+    <field name="win.eventdata.TicketEncryptionType" negate="yes" type="pcre2">^0x1[12]$</field> <!-- Using cipher different from AES128 (0x11) and AES256 (0x12) is suspicious. -->
     <options>no_full_log</options>
-    <description>Possible Kerberoasting attack</description>
+    <description>Possible Kerberoasting attack - RC4 TGS request for $(win.eventdata.serviceName) by $(win.eventdata.targetUserName)</description>
+    <mitre><id>T1558.003</id></mitre>
   </rule>
  
   <!-- This rule detects Golden Ticket attacks using windows security events on the domain controller. -->
